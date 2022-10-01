@@ -10,9 +10,11 @@ const Dashboard = () => {
   const userData = collection(db, "users");
   getDocs(userData).then((querySnapshot) => {
     querySnapshot.docs.map((doc) => {
-      setUserName(doc.get("username"));
+      querySnapshot.docs.map((doc) => {
+        setUserName(doc.get("username"));
+      });
+      console.log(querySnapshot.docs);
     });
-    setUserName(querySnapshot.doc.username);
   });
 
   // useEffect(() => {
@@ -34,7 +36,7 @@ const Dashboard = () => {
 
   return (
     <>
-      {userName}
+      {userName}さんようこそ！
       <h1>マイページ</h1>
       {/* ↓ユーザーのメールアドレスを表示（ログインしている場合） */}
       <p>{user && user.email}</p>
