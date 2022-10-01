@@ -9,9 +9,19 @@ const Dashboard = () => {
 
   const userData = collection(db, "users");
   getDocs(userData).then((querySnapshot) => {
-    console.log(querySnapshot.docs.document);
-    setUserName(querySnapshot.docs.username);
+    querySnapshot.docs.map((doc) => {
+      setUserName(doc.get("username"));
+    });
+    setUserName(querySnapshot.doc.username);
   });
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const docRef = doc(db, "users", user.uid);
+  //     const docSnap = await getDoc(docRef);
+  //     console.log(docSnap);
+  //   })();
+  // }, []);
 
   /* ↓state変数「user」を定義 */
   const [user, setUser] = useState("");

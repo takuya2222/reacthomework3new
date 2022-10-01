@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-/* ↓「onAuthStateChanged」をimport */
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "./FirebaseConfig.js";
-/* ↓「Navigate」をimport */
 import { Navigate } from "react-router-dom";
 
 const Register = () => {
