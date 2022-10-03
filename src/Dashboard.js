@@ -2,28 +2,30 @@ import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./FirebaseConfig.js";
 import db from "./FirebaseConfig";
-import { collection, getDocs, querySnapshot } from "firebase/firestore";
+import { collection, getDoc, querySnapshot, doc } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 const Dashboard = () => {
+  // async
+  // () => {
   const [userName, setUserName] = useState("");
 
-  const userData = collection(db, "users");
-  getDocs(userData).then((querySnapshot) => {
-    querySnapshot.docs.map((doc) => {
-      querySnapshot.docs.map((doc) => {
-        setUserName(doc.get("username"));
-      });
-      console.log(querySnapshot.docs);
-    });
-  });
+  //   const userData = collection(db, "users");
+  //   getDocs(userData).then((querySnapshot) => {
+  //     querySnapshot.docs.map((doc) => {
+  //       setUserName(doc.get("username"));
+  //     });
+  //     console.log(querySnapshot.docs);
+  //   });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const docRef = doc(db, "users", user.uid);
-  //     const docSnap = await getDoc(docRef);
-  //     console.log(docSnap);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const docRef = doc(db, "users");
+      const docSnap = await getDoc(docRef);
+      setUserName(docSnap.username);
+      console.log(setUserName);
+    })();
+  }, []);
 
   /* ↓state変数「user」を定義 */
   const [user, setUser] = useState("");
