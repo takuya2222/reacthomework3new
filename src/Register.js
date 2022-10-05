@@ -5,30 +5,48 @@ import {
 } from "firebase/auth";
 import { auth } from "./FirebaseConfig.js";
 import { Navigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import db from "./FirebaseConfig";
 
 const Register = () => {
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
+  const stockUserInfo = (e) => {
+    e.preventDefault();
+    addDoc(collection(db, "user"), {
+      // doc(userId)でドキュメントIDを指定することができる
+      username: registerName, // フィールドにはusernameだけを指定する
+      balance: 500,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      // const userCredential = await createUserWithEmailAndPassword(
+      //   auth,
+      //   registerEmail,
+      //   registerPassword
+      // );
+      // const userId = userCredential.user.uid;
+      // stockUserInfo(userId);
       await createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
       );
+      stockUserInfo(e);
+      console.log("test");
     } catch (error) {
       alert("正しく入力してください");
     }
   };
 
-  /* ↓state変数「user」を定義 */
-  const [user, setUser] = useState("");
-
   /* ↓ログインしているかどうかを判定する */
+  const [user, setUser] = useState("");
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -71,7 +89,7 @@ const Register = () => {
                 onChange={(e) => setRegisterPassword(e.target.value)}
               />
             </div>
-            <button>登録する</button>
+            <button onClick={handleSubmit}>登録する</button>
           </form>
         </>
       )}
