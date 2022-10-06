@@ -13,9 +13,8 @@ const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
-  const stockUserInfo = (e) => {
-    e.preventDefault();
-    addDoc(collection(db, "user"), {
+  const stockUserInfo = () => {
+    addDoc(collection(db, "users"), {
       // doc(userId)でドキュメントIDを指定することができる
       username: registerName, // フィールドにはusernameだけを指定する
       balance: 500,
@@ -26,20 +25,20 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      // const userCredential = await createUserWithEmailAndPassword(
-      //   auth,
-      //   registerEmail,
-      //   registerPassword
-      // );
-      // const userId = userCredential.user.uid;
-      // stockUserInfo(userId);
-      await createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
       );
-      stockUserInfo(e);
-      console.log("test");
+      const userId = userCredential.user.uid;
+      stockUserInfo(userId);
+      // await createUserWithEmailAndPassword(
+      //   auth,
+      //   registerEmail,
+      //   registerPassword
+      // );
+      // stockUserInfo(e);
+      // console.log(db.userId);
     } catch (error) {
       alert("正しく入力してください");
     }

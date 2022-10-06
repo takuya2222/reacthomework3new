@@ -11,8 +11,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     (async () => {
-      const docRef = doc(db, "users", "5UkEx4PkWs3uxfN8AVLZ");
+      const docRef = doc(db, "users", user.uid );
       const docSnap = await getDoc(docRef);
+      console.log(docSnap);
       setUserName(docSnap.data().username);
       setBalance(docSnap.data().balance);
     })();
